@@ -1,0 +1,7 @@
+{"level":"ERROR","location":"[get_call:142] fyersModel","message":{"API":"/positions","Error":{"code":-16,"message":"Could not authenticate the user","s":"error"}},"timestamp":"2024-06-11 10:28:42,581+0530","service":"FyersAPI"}
+{"level":"ERROR","location":"[post_call:85] fyersModel","message":{"API":"/orders/sync","Error":{"code":-50,"message":"Invalid input","s":"error"}},"timestamp":"2024-06-12 10:13:41,823+0530","service":"FyersAPI"}
+{"level":"ERROR","location":"[post_call:85] fyersModel","message":{"API":"/orders/sync","Error":{"code":-50,"message":"Invalid input","s":"error"}},"timestamp":"2024-06-12 10:14:26,651+0530","service":"FyersAPI"}
+{"level":"ERROR","location":"[post_call:85] fyersModel","message":{"API":"/orders/sync","Error":{"code":-50,"message":"Invalid input","s":"error"}},"timestamp":"2024-06-12 10:37:59,930+0530","service":"FyersAPI"}
+{"level":"ERROR","location":"[post_call:85] fyersModel","message":{"API":"/orders/sync","Error":{"code":-50,"message":"Invalid input","s":"error"}},"timestamp":"2024-06-12 10:43:01,501+0530","service":"FyersAPI"}
+{"level":"ERROR","location":"[post_call:85] fyersModel","message":{"API":"/orders/sync","Error":{"code":-50,"message":"Invalid input","s":"error"}},"timestamp":"2024-06-12 10:45:03,211+0530","service":"FyersAPI"}
+{"level":"ERROR","location":"[post_call:85] fyersModel","message":{"API":"/orders/sync","Error":{"code":-50,"message":"Invalid input","s":"error"}},"timestamp":"2024-06-12 10:46:37,296+0530","service":"FyersAPI"}
