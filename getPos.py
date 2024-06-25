@@ -1,12 +1,12 @@
 import json
 from fyers_apiv3 import fyersModel
-import accessTOTP
-
-APP_ID = accessTOTP.APP_ID
-access_token = accessTOTP.main()
+# import accessTOTP
+#
+# APP_ID = accessTOTP.APP_ID
+# access_token = accessTOTP.main()
 # print('access_token in dif file: ', access_token)
 
-def getOpenPositions(access_token):
+def getOpenPositions(APP_ID, access_token):
 
     # Initialize the FyersModel instance with your client_id, access_token, and enable async mode
     fyers = fyersModel.FyersModel(client_id=APP_ID, token=access_token, is_async=False, log_path="")
@@ -44,4 +44,4 @@ def getOpenPositions(access_token):
     print('Realized PL: ', parsed_data['overall']['pl_realized'])
     # Access other fields as needed
 
-getOpenPositions(access_token)
+# getOpenPositions(access_token)
