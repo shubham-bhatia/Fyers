@@ -1,5 +1,6 @@
+import csv
 import os
-import getPos
+
 import Orders
 import accessTOTP
 
@@ -7,7 +8,40 @@ APP_ID = accessTOTP.APP_ID
 access_token = accessTOTP.main()
 
 
-def readFile():
+def read_csv_file(file_path):
+    data = []
+    with open(file_path, 'r', newline='') as csv_file:
+        csv_reader = csv.reader(csv_file)
+        next(csv_reader)  # Skip the header row
+        for row in csv_reader:
+            data.append({
+                'symbol': row[0],
+                'qty': int(row[1]),
+                'limitPrice': float(row[2]),
+                'stopLoss': float(row[3]),
+                'side': int(row[4]),
+                'productType': row[5],
+                'type': row[6]
+            })
+    return data
+
+
+def getTradeToOpen(file_path):
+    csv_data = read_csv_file(file_path)
+    for trade in csv_data:
+        symbol = trade['symbol']
+        qty = trade['qty']
+        limitPrice = trade['limitPrice']
+        stopLoss = trade['stopLoss']
+        side = trade['side']
+        productType = trade['productType']
+        type = trade['type']
+
+        print(f"Processing trade for symbol: {symbol}, stopLoss: {stopLoss}")  # Add debug print statement
+        Orders.openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, type, APP_ID, access_token)
+
+
+def readFileToOpenNewOrder():
     desktop_path = os.path.join('C:', os.sep, 'Users', 'shubhbhatia', 'Desktop', 'Trade.txt')
     with open(desktop_path, 'r') as file:
         lines = file.readlines()
@@ -31,10 +65,16 @@ def readFile():
 
 
 if __name__ == '__main__':
-    # readFile()
-
     # get all open positions
-    getPos.getOpenPositions(APP_ID, access_token)
+    # getPos.getOpenPositions(APP_ID, access_token)
     print('----------------------------------------------######################------------------------------------')
-    Orders.getOrderbook(APP_ID, access_token)
     # Orders.openNewOrder(symbol, qty, limitPrice, stopLoss, APP_ID, access_token)
+    # readFileToOpenNewOrder()
+    desktop_path = os.path.join('C:', os.sep, 'Users', 'shubhbhatia', 'Desktop', 'Trade.txt')
+
+    # Orders.getOrderbook(APP_ID, access_token)
+
+    # BO_Orders.getPendingBOOrders(APP_ID, access_token)
+
+    # TOP OPEN NEW TRADE
+    getTradeToOpen(desktop_path)

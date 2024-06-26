@@ -39,7 +39,7 @@ def getTradeToOpen():
     # print(f"Processing record {idx}/{len(csv_data)}")
 
 
-def openNewOrder(symbol, qty, limitPrice, stopLoss, APP_ID, access_token):
+def openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, type, APP_ID, access_token):
     # getTradeToOpen()
 
     # symbol = input("Symbol: " or "jublfood")
@@ -65,27 +65,34 @@ def openNewOrder(symbol, qty, limitPrice, stopLoss, APP_ID, access_token):
     # side = input("Side (1-Buy 2-Sell): ")
     # productType = input("Product Type (Intraday/CO/BO): ")
 
+    stopPrice = 0
+
+    if side == -1:
+        stopLoss = stopLoss
+        stopPrice = 0
+    elif side == 1:
+        stopPrice = stopLoss
+        # stopLoss = 0
+        # print(stopPrice)
+
     data = {
         "symbol": symbol,
         "qty": int(qty),
-        "type": 1,
-        "side": -1,
-        "productType": "CO",  # productType.upper(),
-        # "price":float(price),
+        "type": int(type),
+        "side": side,
+        "productType": productType.upper(),
+        "stopPrice": float(stopPrice),
         "limitPrice": float(limitPrice),
-        # "stopPrice":float(stopLoss),
-        # "takeProfit": 0,
+        "stopLoss": float(stopLoss),
+        "takeProfit": 0,
         "validity": "DAY",
         "disclosedQty": 0,
-        "offlineOrder": False,
-        # "orderTag":"Python",
-        "stopLoss": float(stopLoss)
+        "offlineOrder": False
     }
-    print(data)
+    # print(data)
     fyers = fyersModel.FyersModel(client_id=APP_ID, token=access_token, is_async=False, log_path="")
     response = fyers.place_order(data=data)
     print(response)
-
 
 def checkSide(side):
     if side == -1:
@@ -148,6 +155,8 @@ def getOrderbook(APP_ID, access_token):
                 status = "Completed"
             else:
                 status = net_position['status']
+
+            print(net_position)
 
             print('Status: ', status
                   , '|| Symbol: ', net_position['symbol']
