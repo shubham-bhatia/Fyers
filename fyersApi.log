@@ -44,3 +44,6 @@
 {"level":"ERROR","location":"[post_call:85] fyersModel","message":{"API":"/orders/sync","Error":{"code":-50,"message":"limitPrice should be greater than stopPrice for side BUY","s":"error"}},"timestamp":"2024-06-26 11:54:52,744+0530","service":"FyersAPI"}
 {"level":"ERROR","location":"[post_call:85] fyersModel","message":{"API":"/orders/sync","Error":{"code":-50,"message":"Invalid symbol provided","s":"error"}},"timestamp":"2024-06-26 11:56:21,874+0530","service":"FyersAPI"}
 {"level":"ERROR","location":"[post_call:85] fyersModel","message":{"API":"/orders/sync","Error":{"code":-50,"message":"Invalid symbol provided","s":"error"}},"timestamp":"2024-06-26 11:57:38,723+0530","service":"FyersAPI"}
+{"level":"ERROR","location":"[post_call:85] fyersModel","message":{"API":"/orders/sync","Error":{"code":-50,"message":"Invalid symbol provided","s":"error"}},"timestamp":"2024-06-27 17:12:05,045+0530","service":"FyersAPI"}
+{"level":"ERROR","location":"[post_call:85] fyersModel","message":{"API":"/orders/sync","Error":{"code":-50,"message":"Invalid symbol provided","s":"error"}},"timestamp":"2024-06-27 17:12:05,190+0530","service":"FyersAPI"}
+{"level":"ERROR","location":"[post_call:85] fyersModel","message":{"API":"/orders/sync","Error":{"code":-50,"message":"Invalid symbol provided","s":"error"}},"timestamp":"2024-06-27 17:12:05,332+0530","service":"FyersAPI"}

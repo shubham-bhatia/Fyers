@@ -17,7 +17,6 @@ APP_TYPE = "100"
 # APP_ID_HASH = "217c9b9e506820e731a58284bf09f994bf9b58243e5f100755483fdefb11dabc"  # SHA-256 hash of appId-appType:appSecret
 a_string = 'JEBUMTMO2I-100:MTHAV8WWP8'  # NEW
 APP_ID_HASH = hashlib.sha256(a_string.encode('utf-8')).hexdigest()
-# print(APP_ID_HASH)
 
 # API endpoints
 BASE_URL = "https://api-t2.fyers.in/vagator/v2"

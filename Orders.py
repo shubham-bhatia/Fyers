@@ -39,7 +39,7 @@ def getTradeToOpen():
     # print(f"Processing record {idx}/{len(csv_data)}")
 
 
-def openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, type, APP_ID, access_token):
+def openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, type, APP_ID, access_token,offlineOrder):
     # getTradeToOpen()
 
     # symbol = input("Symbol: " or "jublfood")
@@ -66,14 +66,11 @@ def openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, type, APP
     # productType = input("Product Type (Intraday/CO/BO): ")
 
     stopPrice = 0
-
     if side == -1:
         stopLoss = stopLoss
         stopPrice = 0
     elif side == 1:
         stopPrice = stopLoss
-        # stopLoss = 0
-        # print(stopPrice)
 
     data = {
         "symbol": symbol,
@@ -87,9 +84,8 @@ def openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, type, APP
         "takeProfit": 0,
         "validity": "DAY",
         "disclosedQty": 0,
-        "offlineOrder": False
+        "offlineOrder": offlineOrder
     }
-    # print(data)
     fyers = fyersModel.FyersModel(client_id=APP_ID, token=access_token, is_async=False, log_path="")
     response = fyers.place_order(data=data)
     print(response)

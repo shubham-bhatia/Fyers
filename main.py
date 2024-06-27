@@ -1,12 +1,11 @@
 import csv
 import os
-
+import getPos
 import Orders
 import accessTOTP
 
 APP_ID = accessTOTP.APP_ID
 access_token = accessTOTP.main()
-
 
 def read_csv_file(file_path):
     data = []
@@ -30,15 +29,16 @@ def getTradeToOpen(file_path):
     csv_data = read_csv_file(file_path)
     for trade in csv_data:
         symbol = trade['symbol']
-        qty = trade['qty']
-        limitPrice = trade['limitPrice']
-        stopLoss = trade['stopLoss']
-        side = trade['side']
-        productType = trade['productType']
-        type = trade['type']
+        if "#" not in symbol:
+            qty = trade['qty']
+            limitPrice = trade['limitPrice']
+            stopLoss = trade['stopLoss']
+            side = trade['side']
+            productType = trade['productType']
+            type = trade['type']
 
-        print(f"Processing trade for symbol: {symbol}, stopLoss: {stopLoss}")  # Add debug print statement
-        Orders.openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, type, APP_ID, access_token)
+            print(f"Processing trade for symbol: {symbol} and Product: {productType}")
+            Orders.openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, type, APP_ID, access_token,True)
 
 
 def readFileToOpenNewOrder():
