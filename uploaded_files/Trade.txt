@@ -1,0 +1,5 @@
+scrip,qty,limitPrice,stopLoss,side,productType,type
+yesbank,1,25,0,-1,intraday,1
+yesbank,1,22.10,22,1,CO,4
+#indiacem,1,314,314.50,-1,CO,1
+#indiacem,1,297.57,297.45,1,CO,4

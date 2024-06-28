@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Form</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<script>
+    // Function to update the value of Field B based on the value of Field A
+    function updateFieldB() {
+        // Get the value of Field A
+        const fieldAValue = parseFloat(document.getElementById('ltp').value);
+        // Calculate the value for Field B (Field A + 1%)
+        const fieldBValue = fieldAValue + (fieldAValue * 0.007);
+        // Set the value of Field B
+        document.getElementById('entry_price').value = fieldBValue.toFixed(2); // Rounded to 2 decimal places
+    }
+
+    // Add an event listener to Field A to call updateFieldB when its value changes
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const ltp = document.getElementById('ltp');
+        ltp.addEventListener('input', updateFieldB);
+    });
+</script>
+<body>
+<h1>Order Form</h1>
+<form method="POST" action="{{ url_for('order_form') }}">
+    <label for="script">Script:</label>
+    <input type="text" id="script" name="script" required><br><br>
+
+    <label for="ltp">LTP:</label>
+    <input type="number" step="0.01" id="ltp" name="ltp" required><br><br>
+
+    <label for="qty">Quantity:</label>
+    <input type="number" id="qty" name="qty" required><br><br>
+
+    <label for="entry_price">Entry Price:</label>
+    <input type="number" step="0.01" id="entry_price" name="entry_price" required><br><br>
+
+    <!--    <label for="stop_loss">Stop Loss:</label>-->
+    <!--    <input type="number" step="0.01" id="stop_loss" name="stop_loss" required><br><br>-->
+
+    <input type="submit" class= "styled-button" value="Submit Order">
+    <button type="button" class= "styled-button" onclick="location.href='{{ url_for('index') }}'">Cancel</button>
+</form>
+</body>
+</html>

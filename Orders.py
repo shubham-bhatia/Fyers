@@ -2,13 +2,18 @@ import csv
 # import accessTOTP
 import json
 import os
+import tkinter as tk
+from tkinter import messagebox
 
 from fyers_apiv3 import fyersModel
 
-
-# APP_ID = accessTOTP.APP_ID
-# access_token = accessTOTP.main()
-# fyers = fyersModel.FyersModel(client_id=APP_ID, token=access_token,is_async=False, log_path="")
+def getOrderbook(app_id, access_token):
+    fyers = fyersModel.FyersModel(client_id=app_id, token=access_token)
+    response = fyers.orderbook()
+    if 'error' in response:
+        print('Error fetching order book:', response['error'])
+        return []
+    return response['orderBook']
 
 def read_csv_file(file_path):
     data = []
@@ -30,47 +35,15 @@ def getTradeToOpen():
         print(csv_data[i])
         print(type(csv_data[i]))
 
-    # for idx, row in enumerate(csv_data, 1):
-    #     symbol = row[0]
-    # qty = row[0]
-    # LP = row[2]
-    # SL = row[3]
-    # return symbol#, qty, LP, SL
-    # print(f"Processing record {idx}/{len(csv_data)}")
-
-
 def openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, type, APP_ID, access_token,offlineOrder):
-    # getTradeToOpen()
-
-    # symbol = input("Symbol: " or "jublfood")
     symbol = "NSE:" + symbol.upper() + "-EQ"
-    # print(symbol)
-
-    # 1	Limit order
-    # 2	Market order
-    # 3	Stop order (SL-M)
-    # 4	Stoplimit order (SL-L)
-
-    # INTRADAY
-    # CO
-    # BO
-
-    # type = input("Type (1-LO 2-MO 3-SL/M 4-SL/L): ")
-    # qty = int(input("Qty: ") or "1")
-    # price = input("Price: ")
-    # limitPrice = input("Limit Price: ")
-    # stopPrice = input("Stop Price: ")
-    # stopLoss = input("Stop Loss: ")
-    # takeProfit = input("Take Profit: ")
-    # side = input("Side (1-Buy 2-Sell): ")
-    # productType = input("Product Type (Intraday/CO/BO): ")
 
     stopPrice = 0
     if side == -1:
         stopLoss = stopLoss
         stopPrice = 0
     elif side == 1:
-        stopPrice = stopLoss
+        stopPrice = 0 #stopLoss
 
     data = {
         "symbol": symbol,
@@ -80,15 +53,21 @@ def openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, type, APP
         "productType": productType.upper(),
         "stopPrice": float(stopPrice),
         "limitPrice": float(limitPrice),
-        "stopLoss": float(stopLoss),
+        "stopLoss": 0, #float(stopLoss),
         "takeProfit": 0,
         "validity": "DAY",
         "disclosedQty": 0,
+        "tag":"Python",
         "offlineOrder": offlineOrder
     }
     fyers = fyersModel.FyersModel(client_id=APP_ID, token=access_token, is_async=False, log_path="")
     response = fyers.place_order(data=data)
-    print(response)
+    # print(response)
+
+    if response['message'] == "Successfully placed order":  # Assuming 200 is the success code, this may vary
+        return "Order Status", "Order placed successfully!"
+    else:
+        return response
 
 def checkSide(side):
     if side == -1:
@@ -127,44 +106,44 @@ def getParentOrderDetails(APP_ID, access_token, parentId):
                   )
 
 
-def getOrderbook(APP_ID, access_token):
-    fyers = fyersModel.FyersModel(client_id=APP_ID, token=access_token, is_async=False, log_path="")
-    response = fyers.orderbook()
-    parsed_data = json.loads(json.dumps(response))
-
-    # 1 = > Canceled
-    # 2 = > Traded / Filled
-    # 3 = > (Not used currently)
-    # 4 = > Transit
-    # 5 = > Rejected
-    # 6 = > Pending
-    # 7 = > Expired
-
-    _orderNo = 1
-    for net_position in parsed_data['orderBook']:
-        side = checkSide(net_position['side'])
-
-        if net_position['status'] == 6 or net_position['status'] == 2:
-            if net_position['status'] == 6:
-                status = "Pending"
-            elif net_position['status'] == 2:
-                status = "Completed"
-            else:
-                status = net_position['status']
-
-            print(net_position)
-
-            print('Status: ', status
-                  , '|| Symbol: ', net_position['symbol']
-                  , '|| Qty: ', net_position['qty']
-                  , '|| Limit Price: ', net_position['limitPrice']
-                  , '|| Stop Price: ', net_position['stopPrice']
-                  , '|| Side: ', side
-                  , '|| productType: ', net_position['productType']
-                  , '|| orderDateTime: ', net_position['orderDateTime']
-                  , '|| Type: ', (net_position['type'], "(1-LO 2-MO 3-SL/M 4-SL/L)")
-                  )
-        _orderNo = _orderNo + 1
+# def getOrderbook(APP_ID, access_token):
+#     fyers = fyersModel.FyersModel(client_id=APP_ID, token=access_token, is_async=False, log_path="")
+#     response = fyers.orderbook()
+#     parsed_data = json.loads(json.dumps(response))
+#
+#     # 1 = > Canceled
+#     # 2 = > Traded / Filled
+#     # 3 = > (Not used currently)
+#     # 4 = > Transit
+#     # 5 = > Rejected
+#     # 6 = > Pending
+#     # 7 = > Expired
+#
+#     _orderNo = 1
+#     for net_position in parsed_data['orderBook']:
+#         side = checkSide(net_position['side'])
+#
+#         if net_position['status'] == 6 or net_position['status'] == 2:
+#             if net_position['status'] == 6:
+#                 status = "Pending"
+#             elif net_position['status'] == 2:
+#                 status = "Completed"
+#             else:
+#                 status = net_position['status']
+#
+#             print(net_position)
+#
+#             print('Status: ', status
+#                   , '|| Symbol: ', net_position['symbol']
+#                   , '|| Qty: ', net_position['qty']
+#                   , '|| Limit Price: ', net_position['limitPrice']
+#                   , '|| Stop Price: ', net_position['stopPrice']
+#                   , '|| Side: ', side
+#                   , '|| productType: ', net_position['productType']
+#                   , '|| orderDateTime: ', net_position['orderDateTime']
+#                   , '|| Type: ', (net_position['type'], "(1-LO 2-MO 3-SL/M 4-SL/L)")
+#                   )
+#         _orderNo = _orderNo + 1
         # if 'parentId' in net_position:
             # parentId = net_position['parentId']
             # print(net_position['parentId'])
