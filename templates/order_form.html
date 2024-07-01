@@ -41,8 +41,17 @@
     <!--    <label for="stop_loss">Stop Loss:</label>-->
     <!--    <input type="number" step="0.01" id="stop_loss" name="stop_loss" required><br><br>-->
 
-    <input type="submit" class= "styled-button" value="Submit Order">
-    <button type="button" class= "styled-button" onclick="location.href='{{ url_for('index') }}'">Cancel</button>
+    <label>
+        <input type="radio" name="option" value="1" checked>
+        Single Order
+    </label><br><br>
+    <label>
+        <input type="radio" name="option" value="2">
+        Mutiple Orders
+    </label><br><br>
+
+    <input type="submit" class="styled-button" value="Submit Order">
+    <button type="button" class="styled-button" onclick="location.href='{{ url_for('index') }}'">Cancel</button>
 </form>
 </body>
 </html>

@@ -3,7 +3,7 @@ import os
 
 from flask import Flask, request, redirect, url_for, render_template, flash
 
-import BO_Orders
+# import BO_Orders
 import Orders
 import accessTOTP
 import cancel_pending_orders
@@ -28,7 +28,7 @@ def read_csv_file(file_path):
         next(csv_reader)  # Skip the header row
         for row in csv_reader:
             data.append({'symbol': row[0], 'qty': int(row[1]), 'limitPrice': float(row[2]), 'stopLoss': float(row[3]),
-                'side': int(row[4]), 'productType': row[5], 'type': row[6]})
+                         'side': int(row[4]), 'productType': row[5], 'type': row[6]})
     return data
 
 
@@ -95,11 +95,10 @@ def perform_action():
     if selected_option:
         selected_value = int(selected_option)
         if selected_value == 1:
-            flash('Opening new trade...')
             # desktop_path = os.path.join('uploaded_files', 'Trade.txt')
             desktop_path = os.path.join('C:', os.sep, 'Users', 'shubhbhatia', 'Desktop', 'Trade.txt')
             passcode = request.form.get('passcode')
-            if passcode == 'shubham':  # Replace 'your_passcode_here' with the actual passcode
+            if passcode == '5277':  # Replace 'your_passcode_here' with the actual passcode
                 flash('Opening new trade...')
                 desktop_path = os.path.join('C:', os.sep, 'Users', 'shubhbhatia', 'Desktop', 'Trade.txt')
                 getTradeToOpen(desktop_path, False)
@@ -120,19 +119,19 @@ def perform_action():
     return redirect(url_for('index'))
 
 
-def getTradeToOpen2(desktop_path, symbol, qty, limitPrice, offlineOrder):
+def getTradeToOpen2(desktop_path, symbol, qty, limitPrice, offlineOrder, mode):
     resp1 = Orders.openNewOrder(symbol, qty, limitPrice, 0, -1, "INTRADAY", 1, APP_ID, access_token, offlineOrder)
 
     limitPrice1 = make_multiple_of_10(limitPrice + (limitPrice * 0.012))  # stopLoss
     calcPrice = (limitPrice1 - limitPrice) * 1.5
     takeProfit = make_multiple_of_10(limitPrice - calcPrice)  # Target
 
-    resp2 = Orders.openNewOrder(symbol, qty, limitPrice1, 0, 1, 'INTRADAY', 1, APP_ID, access_token, offlineOrder)
-    resp3 = Orders.openNewOrder(symbol, qty, takeProfit, 0, 1, 'INTRADAY', 1, APP_ID, access_token, offlineOrder)
-
     flash(resp1)
-    flash(resp2)
-    flash(resp3)
+    if mode == 2:
+        resp2 = Orders.openNewOrder(symbol, qty, limitPrice1, 0, 1, 'INTRADAY', 1, APP_ID, access_token, offlineOrder)
+        resp3 = Orders.openNewOrder(symbol, qty, takeProfit, 0, 1, 'INTRADAY', 1, APP_ID, access_token, offlineOrder)
+        flash(resp2)
+        flash(resp3)
 
 
 @app.route('/positions')
@@ -148,23 +147,22 @@ def show_orderbook():
 
 
 @app.route('/pending_bo_orders')
-def show_pending_bo_orders():
-    pending_orders = BO_Orders.getPendingBOOrders(APP_ID, access_token)
-    return render_template('pending_bo_orders.html', pending_orders=pending_orders)
+# def show_pending_bo_orders():
+#     pending_orders = BO_Orders.getPendingBOOrders(APP_ID, access_token)
+#     return render_template('pending_bo_orders.html', pending_orders=pending_orders)
 
 
 @app.route('/cancel_order/<order_id>')
 def cancel_order(order_id):
-    # order_id = order_id
+    flash('Order Cancelled: ', order_id)
     cancel_order = cancel_pending_orders.close_Pending_Order(APP_ID, access_token, order_id)
-    flash('Order Cancelled for ', order_id)
     return redirect(url_for('show_pending_bo_orders'))
 
 
 @app.route('/close_pos/<pos_id>')
 def close_pos(pos_id):
     closePos = getPos.closeOpenPositions(APP_ID, access_token, pos_id)
-    flash('Close Position', pos_id)
+    flash('Close Position: ', pos_id)
     return redirect(url_for('show_positions'))
 
 
@@ -180,7 +178,8 @@ def order_form():
         qty = request.form['qty']
         entry_price = request.form['entry_price']
         desktop_path = os.path.join('C:', os.sep, 'Users', 'shubhbhatia', 'Desktop', 'Trade.txt')
-        getTradeToOpen2(desktop_path, symbol, qty, float(entry_price), False)
+        selected_option = request.form.get('option')
+        getTradeToOpen2(desktop_path, symbol, qty, float(entry_price), False, selected_option)
 
         return render_template('order_success.html', script=symbol, qty=qty, limit_price=entry_price)
 
@@ -196,4 +195,4 @@ def order_form():
 #     getLTP.getLTP(APP_ID, access_token, data)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

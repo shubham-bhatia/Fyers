@@ -21,11 +21,7 @@
     <label>
         <input type="radio" name="option" value="1">
         Open New Position
-    </label><br><br>
-    <div id="passcode-container" style="display: none;">
-        <label for="passcode">Enter Passcode:</label>
-        <input type="password" name="passcode" id="passcode">
-    </div><br>
+    </label><br>
     <label>
         <input type="radio" name="option" value="2">
         Show Open Positions
@@ -42,6 +38,11 @@
         <input type="radio" name="option" value="5">
         Show Pending Orders
     </label><br><br>
+    <div id="passcode-container" style="display: none;">
+        <label for="passcode">Enter Passcode:</label>
+        <input type="password" name="passcode" id="passcode">
+    </div>
+    <br>
     <button type="submit" class="styled-button">Submit</button>
     <button type="button" class="styled-button" onclick="location.href='{{ url_for('order_form') }}'">New Order</button>
 </form>
