@@ -31,7 +31,8 @@
         <th>LTP</th>
         <th>Side</th>
         <th>Product Type</th>
-        <th>P/L</th>
+        <th>Realized P/L</th>
+        <th>UnRealized P/L</th>
     </tr>
     {% for position in positions %}
     <tr>
@@ -40,8 +41,8 @@
         <td>{{ position.ltp }}</td>
         <td>{{ position.side }}</td>
         <td>{{ position.productType }}</td>
-        <td>{{ position.pl | round(2) }}</td>
-        <!--            <td><a href="{{ url_for('close_pos', pos_id=position.id) }}">Close Position</a></td>-->
+        <td>{{ position.realized_profit | round(2) }}</td>
+        <td>{{ position.unrealized_profit | round(2) }}</td>
         <td>
             {% if position.qty != 0 %}
             <a href="{{ url_for('close_pos', pos_id=position.id) }}"><span style="color: blue; pointer-events: none;">Close Position</span></a>
@@ -54,7 +55,8 @@
     {% endfor %}
     <tr>
         <td colspan="5" style="text-align: right;"><strong>Total P/L:</strong></td>
-        <td><strong>{{ total_pl | round(2) }}</strong></td>
+        <td><strong>{{ total_realized_profit | round(2) }}</strong></td>
+        <td><strong>{{ total_unrealized_profit | round(2) }}</strong></td>
     </tr>
 </table>
 <br>
