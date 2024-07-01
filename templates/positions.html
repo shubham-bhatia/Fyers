@@ -52,6 +52,10 @@
 
     </tr>
     {% endfor %}
+    <tr>
+        <td colspan="5" style="text-align: right;"><strong>Total P/L:</strong></td>
+        <td><strong>{{ total_pl | round(2) }}</strong></td>
+    </tr>
 </table>
 <br>
 <a href="{{ url_for('index') }}">Back to Home</a>

@@ -136,7 +136,8 @@ def getTradeToOpen2(desktop_path, symbol, qty, limitPrice, offlineOrder, mode):
 @app.route('/positions')
 def show_positions():
     positions = getPos.getOpenPositions(APP_ID, access_token)
-    return render_template('positions.html', positions=positions)
+    total_pl = sum(position['pl'] for position in positions)
+    return render_template('positions.html', positions=positions, total_pl=total_pl)
 
 
 @app.route('/orderbook')
