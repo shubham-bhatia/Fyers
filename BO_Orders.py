@@ -6,7 +6,7 @@ def getPendingBOOrders(app_id, access_token):
     fyers = fyersModel.FyersModel(client_id=app_id, token=access_token)
     response = fyers.orderbook()
     if 'error' in response:
-        print('Error fetching BO orders:', response['error'])
+        print('Error fetching orders:', response['error'])
         return []
     pending_orders = [order for order in response['orderBook'] if order['status'] == 6]
     return pending_orders

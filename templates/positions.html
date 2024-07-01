@@ -28,6 +28,9 @@
     <tr>
         <th>Symbol</th>
         <th>Qty</th>
+        <th>Buy Price</th>
+        <th>Sell Price</th>
+        <th>Price</th>
         <th>LTP</th>
         <th>Side</th>
         <th>Product Type</th>
@@ -38,6 +41,9 @@
     <tr>
         <td>{{ position.symbol }}</td>
         <td>{{ position.qty }}</td>
+        <td>{{ position.buyAvg }}</td>
+        <td>{{ position.sellAvg }}</td>
+        <td>{{ position.netAvg }}</td>
         <td>{{ position.ltp }}</td>
         <td>{{ position.side }}</td>
         <td>{{ position.productType }}</td>
@@ -54,9 +60,10 @@
     </tr>
     {% endfor %}
     <tr>
-        <td colspan="5" style="text-align: right;"><strong>Total P/L:</strong></td>
+        <td colspan="8" style="text-align: right;"><strong>Total P/L:</strong></td>
         <td><strong>{{ total_realized_profit | round(2) }}</strong></td>
         <td><strong>{{ total_unrealized_profit | round(2) }}</strong></td>
+        <td><strong>{{ Total_pl | round(2) }}</strong></td>
     </tr>
 </table>
 <br>

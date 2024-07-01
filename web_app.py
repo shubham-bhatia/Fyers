@@ -136,10 +136,10 @@ def getTradeToOpen2(desktop_path, symbol, qty, limitPrice, offlineOrder, mode):
 @app.route('/positions')
 def show_positions():
     positions = getPos.getOpenPositions(APP_ID, access_token)
-    print(positions)
     total_realized_profit = sum(position['realized_profit'] for position in positions)
     total_unrealized_profit = sum(position['unrealized_profit'] for position in positions)
-    return render_template('positions.html', positions=positions, total_realized_profit=total_realized_profit, total_unrealized_profit=total_unrealized_profit)
+    Total_pl = total_realized_profit + total_unrealized_profit
+    return render_template('positions.html', positions=positions, total_realized_profit=total_realized_profit, total_unrealized_profit=total_unrealized_profit, Total_pl=Total_pl)
 
 
 @app.route('/orderbook')
@@ -151,6 +151,7 @@ def show_orderbook():
 @app.route('/pending_bo_orders')
 def show_pending_bo_orders():
     pending_orders = BO_Orders.getPendingBOOrders(APP_ID, access_token)
+    print(pending_orders)
     return render_template('pending_bo_orders.html', pending_orders=pending_orders)
 
 
@@ -171,7 +172,6 @@ def close_pos(pos_id):
 @app.route('/new_order', methods=['POST'])
 def new_order():
     return redirect(url_for('order_form'))
-
 
 @app.route('/order_form', methods=['GET', 'POST'])
 def order_form():
