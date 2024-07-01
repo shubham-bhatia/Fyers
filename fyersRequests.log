@@ -776,3 +776,5 @@
 {"level":"DEBUG","location":"[get_call:136] fyersModel","message":{"Status Code":200,"API":"/orders"},"timestamp":"2024-07-01 10:01:03,081+0530","service":"FyersAPIRequest"}
 {"level":"DEBUG","location":"[get_call:136] fyersModel","message":{"Status Code":200,"API":"/positions"},"timestamp":"2024-07-01 11:00:11,557+0530","service":"FyersAPIRequest"}
 {"level":"DEBUG","location":"[get_call:136] fyersModel","message":{"Status Code":200,"API":"/positions"},"timestamp":"2024-07-01 11:14:14,301+0530","service":"FyersAPIRequest"}
+{"level":"DEBUG","location":"[get_call:136] fyersModel","message":{"Status Code":200,"API":"/positions"},"timestamp":"2024-07-01 11:43:56,039+0530","service":"FyersAPIRequest"}
+{"level":"DEBUG","location":"[get_call:136] fyersModel","message":{"Status Code":200,"API":"/orders"},"timestamp":"2024-07-01 11:46:23,436+0530","service":"FyersAPIRequest"}

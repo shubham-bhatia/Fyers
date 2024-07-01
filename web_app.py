@@ -3,7 +3,7 @@ import os
 
 from flask import Flask, request, redirect, url_for, render_template, flash
 
-# import BO_Orders
+import BO_Orders
 import Orders
 import accessTOTP
 import cancel_pending_orders
@@ -20,7 +20,6 @@ UPLOAD_FOLDER = 'uploaded_files'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# hello
 def read_csv_file(file_path):
     data = []
     with open(file_path, 'r', newline='') as csv_file:
@@ -147,9 +146,9 @@ def show_orderbook():
 
 
 @app.route('/pending_bo_orders')
-# def show_pending_bo_orders():
-#     pending_orders = BO_Orders.getPendingBOOrders(APP_ID, access_token)
-#     return render_template('pending_bo_orders.html', pending_orders=pending_orders)
+def show_pending_bo_orders():
+    pending_orders = BO_Orders.getPendingBOOrders(APP_ID, access_token)
+    return render_template('pending_bo_orders.html', pending_orders=pending_orders)
 
 
 @app.route('/cancel_order/<order_id>')
