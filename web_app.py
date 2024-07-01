@@ -20,7 +20,7 @@ UPLOAD_FOLDER = 'uploaded_files'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-//hello
+# hello
 def read_csv_file(file_path):
     data = []
     with open(file_path, 'r', newline='') as csv_file:
