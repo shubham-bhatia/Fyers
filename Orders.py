@@ -35,7 +35,7 @@ def getTradeToOpen():
         print(csv_data[i])
         print(type(csv_data[i]))
 
-def openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, type, APP_ID, access_token,offlineOrder):
+def openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, type, APP_ID, access_token,offlineOrder, takeProfit):
     symbol = "NSE:" + symbol.upper() + "-EQ"
 
     stopPrice = 0
@@ -53,8 +53,8 @@ def openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, type, APP
         "productType": productType.upper(),
         "stopPrice": float(stopPrice),
         "limitPrice": float(limitPrice),
-        "stopLoss": 0, #float(stopLoss),
-        "takeProfit": 0,
+        "stopLoss": stopLoss, #float(stopLoss),
+        "takeProfit": takeProfit,
         "validity": "DAY",
         "disclosedQty": 0,
         "tag":"Python",
