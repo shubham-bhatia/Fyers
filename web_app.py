@@ -67,6 +67,27 @@ def getTradeToOpen(file_path, offlineOrder):
             # flash(resp3)
 
 
+def getTradeToOpen2(desktop_path, symbol, qty, entryPrice, offlineOrder, mode):
+    # entryPrice = make_multiple_of_10(limitPrice + (limitPrice * 0.007))
+    entryPrice = make_multiple_of_10(entryPrice)
+    stopLoss = make_multiple_of_10(entryPrice + (entryPrice * 0.012))  # stopLoss
+    calcPrice = (stopLoss - entryPrice) * 1.5
+    takeProfit = make_multiple_of_10(entryPrice - calcPrice)  # Target
+    tp = make_multiple_of_10(entryPrice - takeProfit)
+
+    resp1 = Orders.openNewOrder(symbol, qty, entryPrice, (stopLoss - entryPrice), -1, "BO", 1, APP_ID, access_token, offlineOrder, tp)
+
+    # limitPrice1 = make_multiple_of_10(limitPrice + (limitPrice * 0.012))  # stopLoss
+    # calcPrice = (limitPrice1 - limitPrice) * 1.5
+    # takeProfit = make_multiple_of_10(limitPrice - calcPrice)  # Target
+
+    flash(resp1)
+    # if mode == 2:
+    #     resp2 = Orders.openNewOrder(symbol, qty, limitPrice1, 0, 1, 'INTRADAY', 1, APP_ID, access_token, offlineOrder)
+    #     resp3 = Orders.openNewOrder(symbol, qty, takeProfit, 0, 1, 'INTRADAY', 1, APP_ID, access_token, offlineOrder)
+    #     flash(resp2)
+    #     flash(resp3)
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -119,28 +140,6 @@ def perform_action():
     return redirect(url_for('index'))
 
 
-def getTradeToOpen2(desktop_path, symbol, qty, entryPrice, offlineOrder, mode):
-    # entryPrice = make_multiple_of_10(limitPrice + (limitPrice * 0.007))
-    entryPrice = make_multiple_of_10(entryPrice)
-    stopLoss = make_multiple_of_10(entryPrice + (entryPrice * 0.012))  # stopLoss
-    calcPrice = (stopLoss - entryPrice) * 1.5
-    takeProfit = make_multiple_of_10(entryPrice - calcPrice)  # Target
-    tp = make_multiple_of_10(entryPrice - takeProfit)
-
-    resp1 = Orders.openNewOrder(symbol, qty, entryPrice, (stopLoss - entryPrice), -1, "BO", 1, APP_ID, access_token, offlineOrder, tp)
-
-    # limitPrice1 = make_multiple_of_10(limitPrice + (limitPrice * 0.012))  # stopLoss
-    # calcPrice = (limitPrice1 - limitPrice) * 1.5
-    # takeProfit = make_multiple_of_10(limitPrice - calcPrice)  # Target
-
-    flash(resp1)
-    # if mode == 2:
-    #     resp2 = Orders.openNewOrder(symbol, qty, limitPrice1, 0, 1, 'INTRADAY', 1, APP_ID, access_token, offlineOrder)
-    #     resp3 = Orders.openNewOrder(symbol, qty, takeProfit, 0, 1, 'INTRADAY', 1, APP_ID, access_token, offlineOrder)
-    #     flash(resp2)
-    #     flash(resp3)
-
-
 @app.route('/positions')
 def show_positions():
     positions = getPos.getOpenPositions(APP_ID, access_token)
@@ -159,7 +158,6 @@ def show_orderbook():
 @app.route('/pending_bo_orders')
 def show_pending_bo_orders():
     pending_orders = BO_Orders.getPendingBOOrders(APP_ID, access_token)
-    # print(pending_orders)
     return render_template('pending_bo_orders.html', pending_orders=pending_orders)
 
 
@@ -169,6 +167,11 @@ def cancel_order(order_id):
     cancel_order = cancel_pending_orders.close_Pending_Order(APP_ID, access_token, order_id)
     return redirect(url_for('show_pending_bo_orders'))
 
+
+@app.route('/cancel__all_orders')
+def cancel_all_orders():
+    close_all_pending_orders(APP_ID, access_token)
+    return redirect(url_for('show_pending_bo_orders'))
 
 @app.route('/close_pos/<pos_id>')
 def close_pos(pos_id):
