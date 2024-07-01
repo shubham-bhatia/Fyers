@@ -1,6 +1,6 @@
 import csv
 import os
-import math
+
 from flask import Flask, request, redirect, url_for, render_template, flash
 
 import BO_Orders
@@ -42,7 +42,8 @@ def read_csv_file(file_path):
 def make_multiple_of_10(x):
     return round(x * 10) / 10  # Rounds down to nearest 10 and then multiples by 10
 
-def getTradeToOpen(file_path):
+
+def getTradeToOpen(file_path, offlineOrder):
     csv_data = read_csv_file(file_path)
     for trade in csv_data:
         symbol = trade['symbol']
@@ -54,19 +55,23 @@ def getTradeToOpen(file_path):
             productType = trade['productType']
             type = trade['type']
 
-            print(f"Processing trade for symbol: {symbol} and Product: {productType} and Stop Loss: {stopLoss}")
-            resp1 = Orders.openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, type, APP_ID,
-                                        access_token, True)
+            entryPrice = make_multiple_of_10(limitPrice + (limitPrice * 0.007))
 
-            limitPrice1 = make_multiple_of_10(limitPrice + (limitPrice * 0.012)) #stopLoss
-            calcPrice = (limitPrice1 - limitPrice)*1.5
-            takeProfit = make_multiple_of_10(limitPrice - calcPrice) #Target
-            resp2 = Orders.openNewOrder(symbol, qty, limitPrice1, stopLoss, 1, 'INTRADAY', 1, APP_ID, access_token, True)
-            resp3 = Orders.openNewOrder(symbol, qty, takeProfit, stopLoss, 1, 'INTRADAY', 1, APP_ID, access_token, True)
+            print(f"Processing trade for symbol: {symbol} and Product: {productType} and Stop Loss: {stopLoss}")
+            resp1 = Orders.openNewOrder(symbol, qty, entryPrice, stopLoss, side, productType, type, APP_ID,
+                                        access_token, offlineOrder)
+
+            limitPrice1 = make_multiple_of_10(entryPrice + (entryPrice * 0.012))  # stopLoss
+            calcPrice = (limitPrice1 - entryPrice) * 1.5
+            takeProfit = make_multiple_of_10(entryPrice - calcPrice)  # Target
+            resp2 = Orders.openNewOrder(symbol, qty, limitPrice1, stopLoss, 1, 'INTRADAY', 1, APP_ID, access_token,
+                                        offlineOrder)
+            resp3 = Orders.openNewOrder(symbol, qty, takeProfit, stopLoss, 1, 'INTRADAY', 1, APP_ID, access_token, offlineOrder)
 
             flash(resp1)
             flash(resp2)
             flash(resp3)
+
 
 @app.route('/')
 def index():
@@ -99,7 +104,14 @@ def perform_action():
             flash('Opening new trade...')
             # desktop_path = os.path.join('uploaded_files', 'Trade.txt')
             desktop_path = os.path.join('C:', os.sep, 'Users', 'shubhbhatia', 'Desktop', 'Trade.txt')
-            getTradeToOpen(desktop_path)
+            passcode = request.form.get('passcode')
+            if passcode == 'shubham':  # Replace 'your_passcode_here' with the actual passcode
+                flash('Opening new trade...')
+                desktop_path = os.path.join('C:', os.sep, 'Users', 'shubhbhatia', 'Desktop', 'Trade.txt')
+                getTradeToOpen(desktop_path, False)
+            else:
+                flash('Incorrect passcode.')
+            # getTradeToOpen(desktop_path)
         elif selected_value == 2:
             # flash('Showing open positions...')
             return redirect(url_for('show_positions'))
@@ -114,10 +126,10 @@ def perform_action():
             return redirect(url_for('show_pending_bo_orders'))
     return redirect(url_for('index'))
 
+
 @app.route('/positions')
 def show_positions():
     positions = getPos.getOpenPositions(APP_ID, access_token)
-    # print(positions)
     return render_template('positions.html', positions=positions)
 
 
@@ -152,19 +164,21 @@ def close_pos(pos_id):
 def new_order():
     return redirect(url_for('order_form'))
 
-def getTradeToOpen2(desktop_path, symbol, qty, limitPrice):
-    resp1 = Orders.openNewOrder(symbol, qty, limitPrice, 0, -1, "INTRADAY", 1, APP_ID, access_token, True)
+
+def getTradeToOpen2(desktop_path, symbol, qty, limitPrice, offlineOrder):
+    resp1 = Orders.openNewOrder(symbol, qty, limitPrice, 0, -1, "INTRADAY", 1, APP_ID, access_token, offlineOrder)
 
     limitPrice1 = make_multiple_of_10(limitPrice + (limitPrice * 0.012))  # stopLoss
     calcPrice = (limitPrice1 - limitPrice) * 1.5
     takeProfit = make_multiple_of_10(limitPrice - calcPrice)  # Target
 
-    resp2 = Orders.openNewOrder(symbol, qty, limitPrice1, 0, 1, 'INTRADAY', 1, APP_ID, access_token, True)
-    resp3 = Orders.openNewOrder(symbol, qty, takeProfit, 0, 1, 'INTRADAY', 1, APP_ID, access_token, True)
+    resp2 = Orders.openNewOrder(symbol, qty, limitPrice1, 0, 1, 'INTRADAY', 1, APP_ID, access_token, offlineOrder)
+    resp3 = Orders.openNewOrder(symbol, qty, takeProfit, 0, 1, 'INTRADAY', 1, APP_ID, access_token, offlineOrder)
 
     flash(resp1)
     flash(resp2)
     flash(resp3)
+
 
 @app.route('/order_form', methods=['GET', 'POST'])
 def order_form():
@@ -172,9 +186,8 @@ def order_form():
         symbol = request.form['script']
         qty = request.form['qty']
         entry_price = request.form['entry_price']
-
         desktop_path = os.path.join('C:', os.sep, 'Users', 'shubhbhatia', 'Desktop', 'Trade.txt')
-        getTradeToOpen2(desktop_path, symbol, qty, float(entry_price))
+        getTradeToOpen2(desktop_path, symbol, qty, float(entry_price), False)
 
         return render_template('order_success.html', script=symbol, qty=qty, limit_price=entry_price)
 
