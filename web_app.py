@@ -75,6 +75,8 @@ def getTradeToOpen2(desktop_path, symbol, qty, entryPrice, offlineOrder, mode):
     takeProfit = make_multiple_of_10(entryPrice - calcPrice)  # Target
     tp = make_multiple_of_10(entryPrice - takeProfit)
 
+    print(f'Entry Price: {entryPrice} Stop Loss: {stopLoss} Take Profit: {tp}')
+
     resp1 = Orders.openNewOrder(symbol, qty, entryPrice, (stopLoss - entryPrice), -1, "BO", 1, APP_ID, access_token, offlineOrder, tp)
 
     # limitPrice1 = make_multiple_of_10(limitPrice + (limitPrice * 0.012))  # stopLoss
@@ -106,7 +108,7 @@ def upload_file():
     if file:
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(file_path)
-        getTradeToOpen(file_path)
+        # getTradeToOpen(file_path)
         flash('File successfully uploaded and processed')
         return redirect(url_for('index'))
 
@@ -122,7 +124,7 @@ def perform_action():
             passcode = request.form.get('passcode')
             if passcode == '1':  # Replace 'your_passcode_here' with the actual passcode
                 flash('Opening new trade...')
-                # desktop_path = os.path.join('C:', os.sep, 'Users', '\SHUBHBHATIA', 'Desktop', 'Trade.txt')
+                # desktop_path = os.path.join('C:', os.sep, 'Users', 'SHUBHBHATIA', 'Desktop', 'Trade.txt')
                 getTradeToOpen(desktop_path, True)
             else:
                 flash('Incorrect passcode.')  # getTradeToOpen(desktop_path)
@@ -194,6 +196,10 @@ def order_form():
         desktop_path = os.path.join('C:', os.sep, 'Users', 'shubhbhatia', 'Desktop', 'Trade.txt')
         selected_option = request.form.get('option')
         mode = request.form.get('mode')
+        if mode == 1:
+            mode = True
+        else:
+            mode = False
         response = getTradeToOpen2(desktop_path, symbol, qty, float(entry_price), mode, selected_option)
 
         return render_template('order_success.html', script=symbol, qty=qty, limit_price=entry_price, response=response)
