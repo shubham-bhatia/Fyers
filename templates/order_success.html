@@ -10,8 +10,9 @@
 <h1>Order Submitted Successfully</h1>
 <p>Script: {{ script }}</p>
 <p>Quantity: {{ qty }}</p>
-<p>Limit Price: {{ limit_price }}</p>
-<p>Stop Loss: {{ stop_loss }}</p>
+<p>Entry Price: {{ limit_price }}</p>
+<!--<p>Stop Loss: {{ stop_loss }}</p>-->
+<p>Response: {{ response }}</p>
 <p>Thank you for your order!</p>
 
 <button type="button" class="styled-button" onclick="location.href='{{ url_for('order_form') }}'">New Order</button>

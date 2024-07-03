@@ -57,7 +57,7 @@ def getTradeToOpen(file_path, offlineOrder):
             resp1 = Orders.openNewOrder(symbol, qty, entryPrice, (stopLoss - entryPrice), side, productType, type, APP_ID,
                                         access_token, offlineOrder, tp)
 
-            # flash(resp1)
+            flash(resp1)
             # resp2 = Orders.openNewOrder(symbol, qty, limitPrice1, stopLoss, 1, 'INTRADAY', 1, APP_ID, access_token,
             #                             offlineOrder)
             # resp3 = Orders.openNewOrder(symbol, qty, takeProfit, stopLoss, 1, 'INTRADAY', 1, APP_ID, access_token,
@@ -82,6 +82,7 @@ def getTradeToOpen2(desktop_path, symbol, qty, entryPrice, offlineOrder, mode):
     # takeProfit = make_multiple_of_10(limitPrice - calcPrice)  # Target
 
     flash(resp1)
+    return resp1
     # if mode == 2:
     #     resp2 = Orders.openNewOrder(symbol, qty, limitPrice1, 0, 1, 'INTRADAY', 1, APP_ID, access_token, offlineOrder)
     #     resp3 = Orders.openNewOrder(symbol, qty, takeProfit, 0, 1, 'INTRADAY', 1, APP_ID, access_token, offlineOrder)
@@ -117,12 +118,12 @@ def perform_action():
         selected_value = int(selected_option)
         if selected_value == 1:
             # desktop_path = os.path.join('uploaded_files', 'Trade.txt')
-            desktop_path = os.path.join('C:', os.sep, 'Users', 'shubhbhatia', 'Desktop', 'Trade.txt')
+            desktop_path = os.path.join('C:', os.sep, 'Users', 'SHUBHBHATIA', 'Desktop', 'Trade.txt')
             passcode = request.form.get('passcode')
             if passcode == '1':  # Replace 'your_passcode_here' with the actual passcode
                 flash('Opening new trade...')
-                desktop_path = os.path.join('C:', os.sep, 'Users', 'shubhbhatia', 'Desktop', 'Trade.txt')
-                getTradeToOpen(desktop_path, False)
+                # desktop_path = os.path.join('C:', os.sep, 'Users', '\SHUBHBHATIA', 'Desktop', 'Trade.txt')
+                getTradeToOpen(desktop_path, True)
             else:
                 flash('Incorrect passcode.')  # getTradeToOpen(desktop_path)
         elif selected_value == 2:
@@ -192,9 +193,10 @@ def order_form():
         entry_price = request.form['entry_price']
         desktop_path = os.path.join('C:', os.sep, 'Users', 'shubhbhatia', 'Desktop', 'Trade.txt')
         selected_option = request.form.get('option')
-        getTradeToOpen2(desktop_path, symbol, qty, float(entry_price), False, selected_option)
+        mode = request.form.get('mode')
+        response = getTradeToOpen2(desktop_path, symbol, qty, float(entry_price), mode, selected_option)
 
-        return render_template('order_success.html', script=symbol, qty=qty, limit_price=entry_price)
+        return render_template('order_success.html', script=symbol, qty=qty, limit_price=entry_price, response=response)
 
     return render_template('order_form.html')
 
