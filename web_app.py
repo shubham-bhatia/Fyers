@@ -8,6 +8,7 @@ import Orders
 import accessTOTP
 import cancel_pending_orders
 import getPos
+import quotes
 from cancel_pending_orders import close_all_pending_orders  # Import the new module
 
 APP_ID = accessTOTP.APP_ID
@@ -100,11 +101,11 @@ def index():
 def upload_file():
     if 'file' not in request.files:
         flash('No file part')
-        return redirect(request.url)
+        return redirect(url_for('index'))
     file = request.files['file']
     if file.filename == '':
-        flash('No selected file')
-        return redirect(request.url)
+        flash('Please select the file')
+        return redirect(url_for('index'))
     if file:
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(file_path)
@@ -161,6 +162,7 @@ def show_orderbook():
 @app.route('/pending_bo_orders')
 def show_pending_bo_orders():
     pending_orders = BO_Orders.getPendingBOOrders(APP_ID, access_token)
+    # print(quotes.get_quotes(APP_ID, access_token, "NSE:MOTHERSON-EQ"))
     return render_template('pending_bo_orders.html', pending_orders=pending_orders)
 
 

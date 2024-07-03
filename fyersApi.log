@@ -115,3 +115,7 @@
 {"level":"ERROR","location":"[post_call:85] fyersModel","message":{"API":"/orders/sync","Error":{"code":-50,"message":"Invalid input","s":"error"}},"timestamp":"2024-07-03 09:02:38,984+0530","service":"FyersAPI"}
 {"level":"ERROR","location":"[post_call:85] fyersModel","message":{"API":"/orders/sync","Error":{"code":-50,"message":"Invalid input","s":"error"}},"timestamp":"2024-07-03 09:16:44,342+0530","service":"FyersAPI"}
 {"level":"ERROR","location":"[post_call:85] fyersModel","message":{"API":"/orders/sync","Error":{"code":-50,"message":"Invalid input","s":"error"}},"timestamp":"2024-07-03 09:18:25,996+0530","service":"FyersAPI"}
+{"level":"ERROR","location":"[get_call:151] fyersModel","message":{"API":"/quotes","error":"not a valid non-string sequence or mapping object"},"timestamp":"2024-07-03 11:15:27,238+0530","service":"FyersAPI"}
+{"level":"ERROR","location":"[get_call:151] fyersModel","message":{"API":"/quotes","error":"not a valid non-string sequence or mapping object"},"timestamp":"2024-07-03 11:16:45,856+0530","service":"FyersAPI"}
+{"level":"ERROR","location":"[get_call:151] fyersModel","message":{"API":"/quotes","error":"not a valid non-string sequence or mapping object"},"timestamp":"2024-07-03 11:17:19,568+0530","service":"FyersAPI"}
+{"level":"ERROR","location":"[get_call:151] fyersModel","message":{"API":"/quotes","error":"not a valid non-string sequence or mapping object"},"timestamp":"2024-07-03 11:17:55,200+0530","service":"FyersAPI"}
