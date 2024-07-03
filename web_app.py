@@ -108,7 +108,7 @@ def upload_file():
     if file:
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
         file.save(file_path)
-        # getTradeToOpen(file_path)
+        getTradeToOpen(file_path,False)
         flash('File successfully uploaded and processed')
         return redirect(url_for('index'))
 
@@ -125,7 +125,7 @@ def perform_action():
             if passcode == '1':  # Replace 'your_passcode_here' with the actual passcode
                 flash('Opening new trade...')
                 # desktop_path = os.path.join('C:', os.sep, 'Users', 'SHUBHBHATIA', 'Desktop', 'Trade.txt')
-                getTradeToOpen(desktop_path, True)
+                getTradeToOpen(desktop_path, False)
             else:
                 flash('Incorrect passcode.')  # getTradeToOpen(desktop_path)
         elif selected_value == 2:
