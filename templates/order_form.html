@@ -22,43 +22,103 @@
         const ltp = document.getElementById('ltp');
         ltp.addEventListener('input', updateFieldB);
     });
+
+    function confirmSubmission(event) {
+        event.preventDefault();  // Prevent form submission
+        var symbol = document.getElementById('script').value;
+        var userConfirmed = confirm("Are you sure you want to submit this order?");
+        if (userConfirmed) {
+            document.getElementById('orderForm').submit();
+        }
+    }
+
+
 </script>
 <body>
 <h1>Order Form</h1>
-<form method="POST" action="{{ url_for('order_form') }}">
+<form method="POST" action="{{ url_for('order_form') }}" id="orderForm" onsubmit="confirmSubmission(event)">
     <label for="script">Script:</label>
-    <input type="text" id="script" name="script" required><br><br>
+    <input type="text" id="script" name="script" required>
 
     <label for="ltp">LTP:</label>
-    <input type="number" step="0.01" id="ltp" name="ltp" required><br><br>
+    <input type="number" step="0.01" id="ltp" name="ltp" required>
 
     <label for="qty">Quantity:</label>
-    <input type="number" id="qty" name="qty" required><br><br>
+    <input type="number" id="qty" name="qty" value = 1 required>
 
     <label for="entry_price">Entry Price:</label>
-    <input type="number" step="0.01" id="entry_price" name="entry_price" required><br><br>
+    <input type="number" step="0.01" id="entry_price" name="entry_price" required>
 
-    <!--    <label for="stop_loss">Stop Loss:</label>-->
-    <!--    <input type="number" step="0.01" id="stop_loss" name="stop_loss" required><br><br>-->
+    <label for="stop_loss">Stop Loss:</label>
+    <input type="number" step="0.01" id="stop_loss" name="stop_loss" value = 0 required>
 
-    Select Order Type:<br><br>
+    <label for="take_profit">Take Profit:</label>
+    <input type="number" step="0.01" id="take_profit" name="take_profit" value = 0 required>
+
+    <br><br>Select Order Type:<br><br>
     <label>
         <input type="radio" name="option" value="1" checked>
         Single Order
-    </label><br><br>
+    </label>
     <label>
-        <input type="radio" name="option" value="2">
+        <input type="radio" name="option" value="2" disabled>
         Mutiple Orders
+    </label><br><br>
+
+    Select Buy/Sell:<br><br>
+    <label>
+        <input type="radio" name="b_s" value="1" disabled>
+        Buy
+    </label>
+    <label>
+        <input type="radio" name="b_s" value="-1" checked>
+        Sell
     </label><br><br>
 
     Select OfflineMode Type:<br><br>
     <label>
         <input type="radio" name="mode" value="1">
         True
-    </label><br><br>
+    </label>
     <label>
         <input type="radio" name="mode" value="0" checked>
         False
+    </label><br><br>
+
+    Select Product Type:<br><br>
+    <label>
+        <input type="radio" name="product_type" value="INTRADAY">
+        INTRADAY
+    </label>
+    <!--    <label>-->
+    <!--        <input type="radio" name="product_type" value="2">-->
+    <!--        MARKET-->
+    <!--    </label>-->
+    <label>
+        <input type="radio" name="product_type" value="CO">
+        CO
+    </label>
+    <label>
+        <input type="radio" name="product_type" value="BO" checked>
+        BO
+    </label><br><br>
+
+    Select Order Type:<br><br>
+    <label>
+        <input type="radio" name="order_type" value="1">
+        Limit Order
+    </label>
+    <label>
+        <input type="radio" name="order_type" value="2">
+        Market Order
+    </label>
+    <label>
+        <input type="radio" name="order_type" value="3">
+        Stop Order (SL-M)
+    </label>
+    <label>
+        <input type="radio" name="order_type" value="4" checked>
+        Stoplimit Order (SL-L)
     </label><br><br>
 
     <input type="submit" class="styled-button" value="Submit Order">

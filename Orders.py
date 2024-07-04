@@ -7,13 +7,16 @@ from tkinter import messagebox
 
 from fyers_apiv3 import fyersModel
 
+
 def getOrderbook(app_id, access_token):
     fyers = fyersModel.FyersModel(client_id=app_id, token=access_token)
     response = fyers.orderbook()
+    print(response)
     if 'error' in response:
         print('Error fetching order book:', response['error'])
         return []
     return response['orderBook']
+
 
 def read_csv_file(file_path):
     data = []
@@ -35,39 +38,42 @@ def getTradeToOpen():
         print(csv_data[i])
         print(type(csv_data[i]))
 
-def openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, type, APP_ID, access_token,offlineOrder, takeProfit):
+
+def openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, order_type, APP_ID, access_token, offlineOrder,
+                 takeProfit):
     symbol = "NSE:" + symbol.upper() + "-EQ"
 
-    stopPrice = 0
-    if side == -1:
-        stopLoss = stopLoss
-        stopPrice = 0
-    elif side == 1:
-        stopPrice = 0 #stopLoss
+    stopPrice = limitPrice + 1
+    # if side == -1:
+    #     stopLoss = stopLoss
+    #     stopPrice = 0
+    # elif side == 1:
+    #     stopPrice = 0 #stopLoss
 
     data = {
         "symbol": symbol,
         "qty": int(qty),
-        "type": int(type),
+        "type": int(order_type),
         "side": side,
         "productType": productType.upper(),
         "stopPrice": float(stopPrice),
         "limitPrice": float(limitPrice),
-        "stopLoss": stopLoss, #float(stopLoss),
+        "stopLoss": stopLoss,
         "takeProfit": takeProfit,
         "validity": "DAY",
         "disclosedQty": 0,
-        "tag":"Python",
+        "tag": "Python",
         "offlineOrder": offlineOrder
     }
     fyers = fyersModel.FyersModel(client_id=APP_ID, token=access_token, is_async=False, log_path="")
     response = fyers.place_order(data=data)
-    # print(response)
+    print(response)
 
     if response['message'] == "Successfully placed order":  # Assuming 200 is the success code, this may vary
         return "Order Status", "Order placed successfully!"
     else:
         return response
+
 
 def checkSide(side):
     if side == -1:
@@ -104,7 +110,6 @@ def getParentOrderDetails(APP_ID, access_token, parentId):
                   , '|| orderDateTime: ', net_position['orderDateTime']
                   , '|| Type: ', (net_position['type'], "(1-LO 2-MO 3-SL/M 4-SL/L)")
                   )
-
 
 # def getOrderbook(APP_ID, access_token):
 #     fyers = fyersModel.FyersModel(client_id=APP_ID, token=access_token, is_async=False, log_path="")
@@ -144,7 +149,7 @@ def getParentOrderDetails(APP_ID, access_token, parentId):
 #                   , '|| Type: ', (net_position['type'], "(1-LO 2-MO 3-SL/M 4-SL/L)")
 #                   )
 #         _orderNo = _orderNo + 1
-        # if 'parentId' in net_position:
-            # parentId = net_position['parentId']
-            # print(net_position['parentId'])
-            # getParentOrderDetails(APP_ID, access_token, net_position['parentId'])
+# if 'parentId' in net_position:
+# parentId = net_position['parentId']
+# print(net_position['parentId'])
+# getParentOrderDetails(APP_ID, access_token, net_position['parentId'])

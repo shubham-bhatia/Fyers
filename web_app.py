@@ -68,17 +68,24 @@ def getTradeToOpen(file_path, offlineOrder):
             # flash(resp3)
 
 
-def getTradeToOpen2(desktop_path, symbol, qty, entryPrice, offlineOrder, mode):
+def getTradeToOpen2(desktop_path, symbol, qty, entryPrice, offlineOrder, mode, product_type, order_type, b_s, sl_input, tp_input):
     # entryPrice = make_multiple_of_10(limitPrice + (limitPrice * 0.007))
     entryPrice = make_multiple_of_10(entryPrice)
-    stopLoss = make_multiple_of_10(entryPrice + (entryPrice * 0.012))  # stopLoss
+
+    # stopLoss, tp = 0.0, 0.0
+    if sl_input == 0:
+        stopLoss = make_multiple_of_10(entryPrice + (entryPrice * 0.012))
+    else:
+        stopLoss = sl_input
     calcPrice = (stopLoss - entryPrice) * 1.5
     takeProfit = make_multiple_of_10(entryPrice - calcPrice)  # Target
-    tp = make_multiple_of_10(entryPrice - takeProfit)
+    if tp_input == 0:
+        tp = make_multiple_of_10(entryPrice - takeProfit)
+    else:
+        tp = make_multiple_of_10(entryPrice - tp_input)
 
-    print(f'Entry Price: {entryPrice} Stop Loss: {stopLoss} Take Profit: {tp}')
-
-    resp1 = Orders.openNewOrder(symbol, qty, entryPrice, (stopLoss - entryPrice), -1, "BO", 1, APP_ID, access_token, offlineOrder, tp)
+    print(f'Entry Price: {entryPrice} Stop Loss: {stopLoss} Take Profit: {takeProfit}')
+    resp1 = Orders.openNewOrder(symbol, qty, entryPrice, (stopLoss - entryPrice), int(b_s), product_type, order_type, APP_ID, access_token, offlineOrder, tp)
 
     # limitPrice1 = make_multiple_of_10(limitPrice + (limitPrice * 0.012))  # stopLoss
     # calcPrice = (limitPrice1 - limitPrice) * 1.5
@@ -198,24 +205,21 @@ def order_form():
         desktop_path = os.path.join('C:', os.sep, 'Users', 'shubhbhatia', 'Desktop', 'Trade.txt')
         selected_option = request.form.get('option')
         mode = request.form.get('mode')
+        product_type = request.form.get('product_type')
+        order_type = request.form.get('order_type')
+        b_s = request.form.get('b_s')
+        sl = request.form.get('stop_loss')
+        tp = request.form.get('take_profit')
+
         if mode == 1:
             mode = True
         else:
             mode = False
-        response = getTradeToOpen2(desktop_path, symbol, qty, float(entry_price), mode, selected_option)
-
+        response = getTradeToOpen2(desktop_path, symbol, qty, float(entry_price), mode, selected_option, product_type, order_type, b_s, float(sl), float(tp))
         return render_template('order_success.html', script=symbol, qty=qty, limit_price=entry_price, response=response)
 
     return render_template('order_form.html')
 
-
-# @app.route('/get_ltp', methods=['POST'])
-# def get_ltp():
-#     script = request.json['script']
-#     data = {
-#         "symbols": f"NSE:{script}-EQ"
-#     }
-#     getLTP.getLTP(APP_ID, access_token, data)
 
 if __name__ == '__main__':
     app.run(debug=True)

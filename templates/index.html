@@ -30,10 +30,10 @@
         <input type="radio" name="option" value="3">
         Cancel All Orders
     </label><br>
-    <!--    <label>-->
-    <!--        <input type="radio" name="option" value="4">-->
-    <!--        Show Order Book-->
-    <!--    </label><br>-->
+        <label>
+            <input type="radio" name="option" value="4">
+            Show Order Book
+        </label><br>
     <label>
         <input type="radio" name="option" value="5">
         Show Pending Orders
@@ -61,7 +61,7 @@
     document.querySelectorAll('input[name="option"]').forEach(option => {
         option.addEventListener('change', function() {
             var passcodeContainer = document.getElementById('passcode-container');
-            if (this.value == '1') {
+            if (this.value == '1' || this.value == '3') {
                 passcodeContainer.style.display = 'block';
             } else {
                 passcodeContainer.style.display = 'none';
