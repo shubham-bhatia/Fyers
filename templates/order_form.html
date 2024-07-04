@@ -105,21 +105,22 @@
 
     Select Order Type:<br><br>
     <label>
-        <input type="radio" name="order_type" value="1">
+        <input type="radio" name="order_type" value="1" checked>
         Limit Order
     </label>
-    <label>
-        <input type="radio" name="order_type" value="2">
-        Market Order
-    </label>
-    <label>
-        <input type="radio" name="order_type" value="3">
-        Stop Order (SL-M)
-    </label>
-    <label>
-        <input type="radio" name="order_type" value="4" checked>
-        Stoplimit Order (SL-L)
-    </label><br><br>
+<!--    <label>-->
+<!--        <input type="radio" name="order_type" value="2">-->
+<!--        Market Order-->
+<!--    </label>-->
+<!--    <label>-->
+<!--        <input type="radio" name="order_type" value="3">-->
+<!--        Stop Order (SL-M)-->
+<!--    </label>-->
+<!--    <label>-->
+<!--        <input type="radio" name="order_type" value="4" checked>-->
+<!--        Stoplimit Order (SL-L)-->
+<!--    </label>-->
+    <br><br>
 
     <input type="submit" class="styled-button" value="Submit Order">
     <button type="button" class="styled-button" onclick="location.href='{{ url_for('index') }}'">Cancel</button>

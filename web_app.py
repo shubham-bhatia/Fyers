@@ -206,11 +206,11 @@ def new_order():
 
 @app.route('/order_form', methods=['GET', 'POST'])
 def order_form():
+    desktop_path = os.path.join('C:', os.sep, 'Users', 'shubhbhatia', 'Desktop', 'Trade.txt')
     if request.method == 'POST':
         symbol = request.form['script']
         qty = request.form['qty']
         entry_price = request.form['entry_price']
-        desktop_path = os.path.join('C:', os.sep, 'Users', 'shubhbhatia', 'Desktop', 'Trade.txt')
         selected_option = request.form.get('option')
         mode = request.form.get('mode')
         product_type = request.form.get('product_type')

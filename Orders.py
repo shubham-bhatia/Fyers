@@ -43,7 +43,7 @@ def openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, order_typ
                  takeProfit):
     symbol = "NSE:" + symbol.upper() + "-EQ"
 
-    stopPrice = limitPrice + 1
+    stopPrice = 0
     # if side == -1:
     #     stopLoss = stopLoss
     #     stopPrice = 0
@@ -54,8 +54,12 @@ def openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, order_typ
         stopLoss = 0
         takeProfit = 0
         stopPrice = 0
-    elif int(order_type) == 4 and productType == 'BO':
-        stopPrice = limitPrice + 1
+    # elif int(order_type) == 4 and productType == 'BO':
+    elif productType == 'BO':
+        stopPrice = 0 #limitPrice + 0.5
+        print(stopPrice)
+    else:
+        print(productType)
 
     data = {
         "symbol": symbol,
@@ -63,7 +67,7 @@ def openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, order_typ
         "type": int(order_type),
         "side": side,
         "productType": productType.upper(),
-        "stopPrice": stopPrice,
+        "stopPrice": float(stopPrice),
         "limitPrice": float(limitPrice),
         "stopLoss": stopLoss,
         "takeProfit": takeProfit,
