@@ -50,13 +50,20 @@ def openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, order_typ
     # elif side == 1:
     #     stopPrice = 0 #stopLoss
 
+    if int(order_type) == 1 and productType == 'INTRADAY':
+        stopLoss = 0
+        takeProfit = 0
+        stopPrice = 0
+    elif int(order_type) == 4 and productType == 'BO':
+        stopPrice = limitPrice + 1
+
     data = {
         "symbol": symbol,
         "qty": int(qty),
         "type": int(order_type),
         "side": side,
         "productType": productType.upper(),
-        "stopPrice": float(stopPrice),
+        "stopPrice": stopPrice,
         "limitPrice": float(limitPrice),
         "stopLoss": stopLoss,
         "takeProfit": takeProfit,
