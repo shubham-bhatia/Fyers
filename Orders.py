@@ -44,22 +44,12 @@ def openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, order_typ
     symbol = "NSE:" + symbol.upper() + "-EQ"
 
     stopPrice = 0
-    # if side == -1:
-    #     stopLoss = stopLoss
-    #     stopPrice = 0
-    # elif side == 1:
-    #     stopPrice = 0 #stopLoss
-
     if int(order_type) == 1 and productType == 'INTRADAY':
         stopLoss = 0
         takeProfit = 0
         stopPrice = 0
-    # elif int(order_type) == 4 and productType == 'BO':
     elif productType == 'BO':
-        stopPrice = 0 #limitPrice + 0.5
-        print(stopPrice)
-    else:
-        print(productType)
+        stopPrice = 0
 
     data = {
         "symbol": symbol,
@@ -78,9 +68,9 @@ def openNewOrder(symbol, qty, limitPrice, stopLoss, side, productType, order_typ
     }
     fyers = fyersModel.FyersModel(client_id=APP_ID, token=access_token, is_async=False, log_path="")
     response = fyers.place_order(data=data)
-    print(response)
+    # print(response)
 
-    if response['message'] == "Successfully placed order":  # Assuming 200 is the success code, this may vary
+    if response['message'] == "Successfully placed order":
         return "Order Status", "Order placed successfully!"
     else:
         return response

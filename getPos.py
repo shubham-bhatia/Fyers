@@ -38,6 +38,7 @@ from fyers_apiv3 import fyersModel
 def getOpenPositions(app_id, access_token):
     fyers = fyersModel.FyersModel(client_id=app_id, token=access_token)
     response = fyers.positions()
+    # print(response)
     if 'error' in response:
         print('Error fetching positions:', response['error'])
         return []

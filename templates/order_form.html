@@ -11,7 +11,7 @@
     function updateFieldB() {
         // Get the value of Field A
         const fieldAValue = parseFloat(document.getElementById('ltp').value);
-        // Calculate the value for Field B (Field A + 1%)
+        // Calculate the value for Field B (Field A + 0.7%)
         const fieldBValue = fieldAValue + (fieldAValue * 0.007);
         // Set the value of Field B
         document.getElementById('entry_price').value = fieldBValue.toFixed(2); // Rounded to 2 decimal places
@@ -21,7 +21,38 @@
     document.addEventListener('DOMContentLoaded', (event) => {
         const ltp = document.getElementById('ltp');
         ltp.addEventListener('input', updateFieldB);
+
+        // Add event listeners to product type radio buttons
+        const productTypes = document.getElementsByName('product_type');
+        productTypes.forEach(productType => {
+            productType.addEventListener('change', toggleFields);
+        });
+
+        toggleFields(); // Initialize the fields on page load
     });
+
+    function toggleFields() {
+        const takeProfitField = document.getElementById('take_profit');
+        const stopLossField = document.getElementById('stop_loss');
+        const productTypeValue = document.querySelector('input[name="product_type"]:checked').value;
+
+        if (productTypeValue === 'INTRADAY') {
+            takeProfitField.disabled = true;
+            takeProfitField.style.backgroundColor = "#e9e9e9"; // Grey out the field
+            stopLossField.disabled = true;
+            stopLossField.style.backgroundColor = "#e9e9e9"; // Grey out the field
+        } else if (productTypeValue === 'CO') {
+            takeProfitField.disabled = true;
+            takeProfitField.style.backgroundColor = "#e9e9e9"; // Grey out the field
+            stopLossField.disabled = false;
+            stopLossField.style.backgroundColor = ""; // Reset to default background color
+        } else {
+            takeProfitField.disabled = false;
+            takeProfitField.style.backgroundColor = ""; // Reset to default background color
+            stopLossField.disabled = false;
+            stopLossField.style.backgroundColor = ""; // Reset to default background color
+        }
+    }
 
     function confirmSubmission(event) {
         event.preventDefault();  // Prevent form submission
@@ -31,8 +62,6 @@
             document.getElementById('orderForm').submit();
         }
     }
-
-
 </script>
 <body>
 <h1>Order Form</h1>
@@ -44,16 +73,16 @@
     <input type="number" step="0.01" id="ltp" name="ltp" required>
 
     <label for="qty">Quantity:</label>
-    <input type="number" id="qty" name="qty" value = 1 required>
+    <input type="number" id="qty" name="qty" value="1" required>
 
     <label for="entry_price">Entry Price:</label>
     <input type="number" step="0.01" id="entry_price" name="entry_price" required>
 
     <label for="stop_loss">Stop Loss:</label>
-    <input type="number" step="0.01" id="stop_loss" name="stop_loss" value = 0 required>
+    <input type="number" step="0.01" id="stop_loss" name="stop_loss" value="0" required>
 
     <label for="take_profit">Take Profit:</label>
-    <input type="number" step="0.01" id="take_profit" name="take_profit" value = 0 required>
+    <input type="number" step="0.01" id="take_profit" name="take_profit" value="0" required>
 
     <br><br>Select Order Type:<br><br>
     <label>
@@ -62,7 +91,7 @@
     </label>
     <label>
         <input type="radio" name="option" value="2" disabled>
-        Mutiple Orders
+        Multiple Orders
     </label><br><br>
 
     Select Buy/Sell:<br><br>
@@ -90,10 +119,6 @@
         <input type="radio" name="product_type" value="INTRADAY">
         INTRADAY
     </label>
-    <!--    <label>-->
-    <!--        <input type="radio" name="product_type" value="2">-->
-    <!--        MARKET-->
-    <!--    </label>-->
     <label>
         <input type="radio" name="product_type" value="CO">
         CO
@@ -108,18 +133,6 @@
         <input type="radio" name="order_type" value="1" checked>
         Limit Order
     </label>
-<!--    <label>-->
-<!--        <input type="radio" name="order_type" value="2">-->
-<!--        Market Order-->
-<!--    </label>-->
-<!--    <label>-->
-<!--        <input type="radio" name="order_type" value="3">-->
-<!--        Stop Order (SL-M)-->
-<!--    </label>-->
-<!--    <label>-->
-<!--        <input type="radio" name="order_type" value="4" checked>-->
-<!--        Stoplimit Order (SL-L)-->
-<!--    </label>-->
     <br><br>
 
     <input type="submit" class="styled-button" value="Submit Order">

@@ -72,28 +72,22 @@ def getTradeToOpen(file_path, offlineOrder):
 
 def getTradeToOpen2(desktop_path, symbol, qty, entryPrice, offlineOrder, mode, product_type, order_type, b_s, sl_input,
                     tp_input):
-    # entryPrice = make_multiple_of_10(limitPrice + (limitPrice * 0.007))
     entryPrice = make_multiple_of_10(entryPrice)
 
-    # stopLoss, tp = 0.0, 0.0
     if sl_input == 0:
         stopLoss = make_multiple_of_10(entryPrice + (entryPrice * 0.012))
     else:
         stopLoss = sl_input
     calcPrice = (stopLoss - entryPrice) * 1.5
-    takeProfit = make_multiple_of_10(entryPrice - calcPrice)  # Target
+    takeProfit = make_multiple_of_10(entryPrice - calcPrice)
     if tp_input == 0:
         tp = make_multiple_of_10(entryPrice - takeProfit)
     else:
         tp = make_multiple_of_10(entryPrice - tp_input)
 
-    print(f'Entry Price: {entryPrice} Stop Loss: {stopLoss} Take Profit: {takeProfit}')
+    print(f'Entry Price: {entryPrice} Stop Loss: {stopLoss}')
     resp1 = Orders.openNewOrder(symbol, qty, entryPrice, (stopLoss - entryPrice), int(b_s), product_type, order_type,
                                 APP_ID, access_token, offlineOrder, tp)
-
-    # limitPrice1 = make_multiple_of_10(limitPrice + (limitPrice * 0.012))  # stopLoss
-    # calcPrice = (limitPrice1 - limitPrice) * 1.5
-    # takeProfit = make_multiple_of_10(limitPrice - calcPrice)  # Target
 
     flash(resp1)
     return resp1
