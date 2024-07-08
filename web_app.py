@@ -113,9 +113,14 @@ def upload_file():
         flash('Please select the file')
         return redirect(url_for('index'))
     if file:
-        file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+        # Get the current directory where the script is running
+        current_directory = os.getcwd()
+        file_path = os.path.join(current_directory, file.filename)
         file.save(file_path)
-        getTradeToOpen(file_path, False)
+    # if file:
+    #     file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+    #     file.save(file_path)
+    #     getTradeToOpen(file_path, False)
         flash('File successfully uploaded and processed')
         return redirect(url_for('index'))
 
