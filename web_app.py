@@ -131,12 +131,13 @@ def perform_action():
     if selected_option:
         selected_value = int(selected_option)
         if selected_value == 1:
+            current_directory = os.getcwd()
             # desktop_path = os.path.join('uploaded_files', 'Trade.txt')
+            file_path = os.path.join(current_directory, 'Trade.txt')
             desktop_path = os.path.join('C:', os.sep, 'Users', 'SHUBHBHATIA', 'Desktop', 'Trade.txt')
             passcode = request.form.get('passcode')
             if passcode == '1':  # Replace 'your_passcode_here' with the actual passcode
                 flash('Opening new trade...')
-                # desktop_path = os.path.join('C:', os.sep, 'Users', 'SHUBHBHATIA', 'Desktop', 'Trade.txt')
                 getTradeToOpen(desktop_path, False)
             else:
                 flash('Incorrect passcode.')  # getTradeToOpen(desktop_path)
@@ -230,8 +231,8 @@ def order_form():
             mode = False
 
         # Compare the current time with the target time
-        if current_time > target_time:
-            mode = False
+        # if current_time > target_time:
+        #     mode = False
 
         response = getTradeToOpen2(desktop_path, symbol, qty, float(entry_price), mode, selected_option, product_type,
                                    order_type, b_s, float(sl), float(tp))
