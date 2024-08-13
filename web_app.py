@@ -9,10 +9,13 @@ import Orders
 import accessTOTP
 import cancel_pending_orders
 import getPos
-from cancel_pending_orders import close_all_pending_orders  # Import the new module
+from cancel_pending_orders import close_all_pending_orders
 
-APP_ID = accessTOTP.APP_ID
+# APP_ID = accessTOTP.APP_ID
 access_token = accessTOTP.main()
+
+APP_ID = "abc"
+access_token = "abc"
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Replace with a strong secret key
@@ -20,7 +23,6 @@ app.secret_key = 'your_secret_key'  # Replace with a strong secret key
 UPLOAD_FOLDER = 'uploaded_files'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
 
 def read_csv_file(file_path):
     data = []
@@ -112,15 +114,15 @@ def upload_file():
     if file.filename == '':
         flash('Please select the file')
         return redirect(url_for('index'))
-    if file:
-        # Get the current directory where the script is running
-        current_directory = os.getcwd()
-        file_path = os.path.join(current_directory, file.filename)
-        file.save(file_path)
     # if file:
-    #     file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+    #     # Get the current directory where the script is running
+    #     current_directory = os.getcwd()
+    #     file_path = os.path.join(current_directory, file.filename)
     #     file.save(file_path)
-    #     getTradeToOpen(file_path, False)
+    if file:
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+        file.save(file_path)
+        getTradeToOpen(file_path, False)
         flash('File successfully uploaded and processed')
         return redirect(url_for('index'))
 
@@ -132,9 +134,9 @@ def perform_action():
         selected_value = int(selected_option)
         if selected_value == 1:
             current_directory = os.getcwd()
-            # desktop_path = os.path.join('uploaded_files', 'Trade.txt')
+            desktop_path = os.path.join('uploaded_files', 'Trade.txt')
             file_path = os.path.join(current_directory, 'Trade.txt')
-            desktop_path = os.path.join('C:', os.sep, 'Users', 'SHUBHBHATIA', 'Desktop', 'Trade.txt')
+            # desktop_path = os.path.join('C:', os.sep, 'Users', 'SHUBHBHATIA', 'Desktop', 'Trade.txt')
             passcode = request.form.get('passcode')
             if passcode == '1':  # Replace 'your_passcode_here' with the actual passcode
                 flash('Opening new trade...')

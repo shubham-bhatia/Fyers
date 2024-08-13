@@ -75,10 +75,10 @@ def main():
     getauthToken(appId, redirect_url)
 
     # The app secret we got after creating the app.
-    app_secret = "VRCJ7TZ48P"
+    app_secret = "MTHAV8WWP8"
 
     # the genarted auth code we got from browser after running the getauthToken(x,x) func.
-    auth_code = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhcGkubG9naW4uZnllcnMuaW4iLCJpYXQiOjE3MTgwMjYyNDUsImV4cCI6MTcxODA1NjI0NSwibmJmIjoxNzE4MDI1NjQ1LCJhdWQiOlsieDowIiwieDoxIiwieDoyIiwiZDoxIiwiZDoyIiwieDoxIiwieDowIl0sInN1YiI6ImF1dGhfY29kZSIsImRpc3BsYXlfbmFtZSI6IlhTOTk2ODQiLCJvbXMiOiJLMSIsImhzbV9rZXkiOm51bGwsIm5vbmNlIjoiIiwiYXBwX2lkIjoiSkVCVU1UTU8ySSIsInV1aWQiOiI0OTE4NGVkYjFiZTk0ZjU0YjQyMjk4OWQ0ZGY2NzU4YSIsImlwQWRkciI6IjI0LjIzOS4xMzQuMzEsIDE3Mi42OS45NC4yMzUiLCJzY29wZSI6IiJ9.2a6MyS2IU19vQkFI4bjwE85_cCVNph_4vjgEfPxllKE"
+    # auth_code = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhcGkubG9naW4uZnllcnMuaW4iLCJpYXQiOjE3MTgwMjYyNDUsImV4cCI6MTcxODA1NjI0NSwibmJmIjoxNzE4MDI1NjQ1LCJhdWQiOlsieDowIiwieDoxIiwieDoyIiwiZDoxIiwiZDoyIiwieDoxIiwieDowIl0sInN1YiI6ImF1dGhfY29kZSIsImRpc3BsYXlfbmFtZSI6IlhTOTk2ODQiLCJvbXMiOiJLMSIsImhzbV9rZXkiOm51bGwsIm5vbmNlIjoiIiwiYXBwX2lkIjoiSkVCVU1UTU8ySSIsInV1aWQiOiI0OTE4NGVkYjFiZTk0ZjU0YjQyMjk4OWQ0ZGY2NzU4YSIsImlwQWRkciI6IjI0LjIzOS4xMzQuMzEsIDE3Mi42OS45NC4yMzUiLCJzY29wZSI6IiJ9.2a6MyS2IU19vQkFI4bjwE85_cCVNph_4vjgEfPxllKE"
 
     # Function to get the access token and need to be commented while calling the getauthToken(x,x) func.
     print(generate_access_token(auth_code, appId, app_secret))

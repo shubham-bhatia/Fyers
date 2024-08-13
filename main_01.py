@@ -74,12 +74,11 @@ def main():
     # Function to get the auth code and need to be commented while calling the generate_access_token(x,x,x) func.
     getauthToken(appId, redirect_url)
 
-
     # The app secret we got after creating the app.
     app_secret = "MTHAV8WWP8"
 
     # the genarted auth code we got from browser after running the getauthToken(x,x) func.
-    auth_code = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhcGkubG9naW4uZnllcnMuaW4iLCJpYXQiOjE3MTgwMzg0MjMsImV4cCI6MTcxODA2ODQyMywibmJmIjoxNzE4MDM3ODIzLCJhdWQiOiJbXCJ4OjBcIiwgXCJ4OjFcIiwgXCJ4OjJcIiwgXCJkOjFcIiwgXCJkOjJcIiwgXCJ4OjFcIiwgXCJ4OjBcIl0iLCJzdWIiOiJhdXRoX2NvZGUiLCJkaXNwbGF5X25hbWUiOiJYUzk5Njg0Iiwib21zIjoiSzEiLCJoc21fa2V5IjoiNTZiOWI3MjIxODNlZmNlNTVjM2IxMzUwZGVkYTAwNzgyYzg5Nzc0ZWY3ZGU5NDVkNmFlZDhjMTgiLCJub25jZSI6IiIsImFwcF9pZCI6IkpFQlVNVE1PMkkiLCJ1dWlkIjoiNDQzYTliOTdiNTk4NDZmMTg4MDExZjlmNDkyYTYxMzQiLCJpcEFkZHIiOiIwLjAuMC4wIiwic2NvcGUiOiIifQ.k5zLS_17a0ffJwrEQPptg6gJRhygkzpl4vj9Y14bRjE"
+    auth_code = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhcGkubG9naW4uZnllcnMuaW4iLCJpYXQiOjE3MjEzMDMzNzUsImV4cCI6MTcyMTMzMzM3NSwibmJmIjoxNzIxMzAyNzc1LCJhdWQiOiJbXCJ4OjBcIiwgXCJ4OjFcIiwgXCJ4OjJcIiwgXCJkOjFcIiwgXCJkOjJcIiwgXCJ4OjFcIiwgXCJ4OjBcIl0iLCJzdWIiOiJhdXRoX2NvZGUiLCJkaXNwbGF5X25hbWUiOiJYUzk5Njg0Iiwib21zIjoiSzEiLCJoc21fa2V5IjoiODJkZTQ2ZjEyOTdmOWFkYzE5ZmZkMWMwNjUxM2M4ZGY2NDU0ODBlMWU2MmE5YzMxMTBiMTg4NTIiLCJub25jZSI6IiIsImFwcF9pZCI6IkpFQlVNVE1PMkkiLCJ1dWlkIjoiNGM1NzBlMmE4OGY0NGViYmIxMjQyM2E4Y2NiNzIzMTIiLCJpcEFkZHIiOiIwLjAuMC4wIiwic2NvcGUiOiIifQ.lVnHcCrRjYHoOBZGhq3K3-rgPpQisC18G8ipFmgP0Qc"
 
     # Function to get the access token and need to be commented while calling the getauthToken(x,x) func.
     print(generate_access_token(auth_code, appId, app_secret))

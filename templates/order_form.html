@@ -13,8 +13,13 @@
         const fieldAValue = parseFloat(document.getElementById('ltp').value);
         // Calculate the value for Field B (Field A + 0.7%)
         const fieldBValue = fieldAValue + (fieldAValue * 0.007);
+        const SL = fieldBValue + (fieldBValue * 0.012);
+        const calcPrice = (SL - fieldBValue) * 1.5
+        const TP = fieldBValue - calcPrice;
         // Set the value of Field B
         document.getElementById('entry_price').value = fieldBValue.toFixed(2); // Rounded to 2 decimal places
+        document.getElementById('stop_loss').value = SL.toFixed(2);
+        document.getElementById('take_profit').value = TP.toFixed(2);
     }
 
     // Add an event listener to Field A to call updateFieldB when its value changes

@@ -9,8 +9,8 @@ from fyers_apiv3 import fyersModel
 # Client Info (ENTER YOUR OWN INFO HERE!! Data varies from users and app types)
 FY_ID = "XS99684"  # Your fyers ID
 APP_ID_TYPE = "2"  # Keep default as 2, It denotes web login
-TOTP_KEY = "MYZAGQXBDTQFFOZZGWH5BZMP3P3K6EOF"  # TOTP secret is generated when we enable 2Factor TOTP from myaccount portal
-PIN = "5277"  # User pin for fyers account
+TOTP_KEY = "CQRZ6KE4ZBXWIE2ICDZIYD4WRAZB33BV"  # TOTP secret is generated when we enable 2Factor TOTP from myaccount portal
+PIN = "0000"  # User pin for fyers account
 APP_ID = "JEBUMTMO2I"  # "7ZZHXHVNKN"  # App ID from myapi dashboard is in the form appId-appType. Example - EGNI8CE27Q-100, In this code EGNI8CE27Q will be APP_ID and 100 will be the APP_TYPE
 REDIRECT_URI = "https://www.google.com"  # Redirect url from the app.
 APP_TYPE = "100"
@@ -20,7 +20,8 @@ APP_ID_HASH = hashlib.sha256(a_string.encode('utf-8')).hexdigest()
 
 # API endpoints
 BASE_URL = "https://api-t2.fyers.in/vagator/v2"
-BASE_URL_2 = "https://api-t1.fyers.in/api/v3"
+BASE_URL_2 =  "https://api.fyers.in/api/v2"
+# BASE_URL_2 =  "https://api-t1.fyers.in/api/v3"
 URL_SEND_LOGIN_OTP = BASE_URL + "/send_login_otp"
 URL_VERIFY_TOTP = BASE_URL + "/verify_otp"
 URL_VERIFY_PIN = BASE_URL + "/verify_pin"
@@ -49,10 +50,10 @@ def send_login_otp(fy_id, app_id):
     except Exception as e:
         return [ERROR, e]
 
-
 def generate_totp(secret):
     try:
         generated_totp = pyotp.TOTP(secret).now()
+        print("generated_totp: ", generated_totp)
         return [SUCCESS, generated_totp]
 
     except Exception as e:
@@ -115,7 +116,6 @@ def token(fy_id, app_id, redirect_uri, app_type, access_token):
             "create_cookie": True
         }
         headers = {'Authorization': f'Bearer {access_token}'}
-        # print('access_token', access_token)
 
         result_string = requests.post(
             url=URL_TOKEN, json=payload, headers=headers
@@ -127,7 +127,6 @@ def token(fy_id, app_id, redirect_uri, app_type, access_token):
         result = json.loads(result_string.text)
         url = result["Url"]
         auth_code = parse.parse_qs(parse.urlparse(url).query)['auth_code'][0]
-        # auth_code = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhcGkuZnllcnMuaW4iLCJpYXQiOjE3MTgwNzUzNTIsImV4cCI6MTcxODA3NTY1MiwibmJmIjoxNzE4MDc1MzUyLCJhdWQiOiJbXCJ4OjBcIiwgXCJ4OjFcIiwgXCJ4OjJcIiwgXCJkOjFcIiwgXCJkOjJcIiwgXCJ4OjFcIiwgXCJ4OjBcIl0iLCJzdWIiOiJhY2Nlc3NfdG9rZW4iLCJhdF9oYXNoIjoiZ0FBQUFBQm1aN19ZSkZCSGpfZzlYYmE4M3pnM1JwekNxR2VoTnNqYXA1Xzl1VWI1bEdicTE5YWs2elM1LVJBSDRZRTlJR0UzdndVek51eW1jdHJYbWtoSDhHVGNzOXhFWHpOSkpxNS0yU25oUEdTSTAwd2o1b1U9IiwiZGlzcGxheV9uYW1lIjoiWFM5OTY4NCIsIm9tcyI6IlIwIiwiaHNtX2tleSI6bnVsbH0.hZJwFlKKJD6eUHlCV6MqquOHoGYdMoaClUr6JAFPnKM"
 
         return [SUCCESS, auth_code]
 
@@ -162,16 +161,16 @@ def main():
     if send_otp_result[0] != SUCCESS:
         print(f"send_login_otp failure - {send_otp_result[1]}")
         sys.exit()
-    # else:
-    #     print("send_login_otp success")
+    else:
+        print("send_login_otp success")
 
     # Step 2 - Generate totp
     generate_totp_result = generate_totp(secret=TOTP_KEY)
     if generate_totp_result[0] != SUCCESS:
         print(f"generate_totp failure - {generate_totp_result[1]}")
         sys.exit()
-    # else:
-    #     print("generate_totp success")
+    else:
+        print("generate_totp success")
 
     # Step 3 - Verify totp and get request key from verify_otp API
     request_key = send_otp_result[1]
@@ -180,8 +179,8 @@ def main():
     if verify_totp_result[0] != SUCCESS:
         print(f"verify_totp_result failure - {verify_totp_result[1]}")
         sys.exit()
-    # else:
-    #     print("verify_totp_result success")
+    else:
+        print("verify_totp_result success:", totp)
 
     # Step 4 - Verify pin and send back access token
     request_key_2 = verify_totp_result[1]
@@ -189,8 +188,8 @@ def main():
     if verify_pin_result[0] != SUCCESS:
         print(f"verify_pin_result failure - {verify_pin_result[1]}")
         sys.exit()
-    # else:
-    #     print("verify_pin_result success")
+    else:
+        print("verify_pin_result success")
 
     # Step 5 - Get auth code for API V2 App from trade access token
     token_result = token(
@@ -200,8 +199,8 @@ def main():
     if token_result[0] != SUCCESS:
         print(f"token_result failure - {token_result[1]}")
         sys.exit()
-    # else:
-    #     print("token_result success")
+    else:
+        print("token_result success")
 
     # Step 6 - Get API V2 access token from validating auth code
     auth_code = token_result[1]
@@ -217,43 +216,6 @@ def main():
     # access_token = APP_ID + "-" + APP_TYPE + ":" + validate_authcode_result[1]
     access_token = validate_authcode_result[1]
     return access_token
-    # print(f"access_token - {access_token}")
-
-    # getOpenPositions(access_token)
-
-# def getOpenPositions(access_token):
-#
-#     # Initialize the FyersModel instance with your client_id, access_token, and enable async mode
-#     fyers = fyersModel.FyersModel(client_id=APP_ID, token=access_token, is_async=False, log_path="")
-#     response = fyers.positions()
-#
-#     # Parsing the JSON data
-#     parsed_data = json.loads(json.dumps(response))
-#
-#     # Accessing specific fields
-#     # print(parsed_data['code'])
-#     # print(parsed_data['message'])
-#     # print(parsed_data['s'])
-#
-#     # Accessing netPositions
-#     pos = 1
-#     for net_position in parsed_data['netPositions']:
-#         print('Position: ', pos)
-#         print('Symbol: ', net_position['symbol']
-#               , '|| Profit: ', net_position['realized_profit']
-#               , '|| Qty: ', net_position['qty']
-#               , '|| Avg Price: ', net_position['buyAvg']
-#               , '|| Side: ', net_position['side']
-#               , '|| productType: ', net_position['productType']
-#               , '|| netAvg: ', net_position['netAvg'])
-#         # print('Profit: ', net_position['realized_profit'])
-#         pos = pos+1
-#         # Access other fields as needed
-#
-#     # Accessing overall data
-#     print('Open Count: ', parsed_data['overall']['count_open'])
-#     print('Realized PL: ', parsed_data['overall']['pl_realized'])
-#     # Access other fields as needed
 
 if __name__ == "__main__":
     generatedAccessToken = main()
