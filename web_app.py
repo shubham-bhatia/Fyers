@@ -11,11 +11,11 @@ import cancel_pending_orders
 import getPos
 from cancel_pending_orders import close_all_pending_orders
 
-# APP_ID = accessTOTP.APP_ID
+APP_ID = accessTOTP.APP_ID
 access_token = accessTOTP.main()
 
-APP_ID = "abc"
-access_token = "abc"
+# APP_ID = "abc"
+# access_token = "abc"
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Replace with a strong secret key

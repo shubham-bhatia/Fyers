@@ -9,8 +9,8 @@ from fyers_apiv3 import fyersModel
 # Client Info (ENTER YOUR OWN INFO HERE!! Data varies from users and app types)
 FY_ID = "XS99684"  # Your fyers ID
 APP_ID_TYPE = "2"  # Keep default as 2, It denotes web login
-TOTP_KEY = "CQRZ6KE4ZBXWIE2ICDZIYD4WRAZB33BV"  # TOTP secret is generated when we enable 2Factor TOTP from myaccount portal
-PIN = "0000"  # User pin for fyers account
+TOTP_KEY = "6DWVRNJZCAVA4MKKLFWEICT342L34D57"  # TOTP secret is generated when we enable 2Factor TOTP from myaccount portal
+PIN = "7777"  # User pin for fyers account
 APP_ID = "JEBUMTMO2I"  # "7ZZHXHVNKN"  # App ID from myapi dashboard is in the form appId-appType. Example - EGNI8CE27Q-100, In this code EGNI8CE27Q will be APP_ID and 100 will be the APP_TYPE
 REDIRECT_URI = "https://www.google.com"  # Redirect url from the app.
 APP_TYPE = "100"
