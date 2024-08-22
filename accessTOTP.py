@@ -9,8 +9,8 @@ from fyers_apiv3 import fyersModel
 # Client Info (ENTER YOUR OWN INFO HERE!! Data varies from users and app types)
 FY_ID = "XS99684"  # Your fyers ID
 APP_ID_TYPE = "2"  # Keep default as 2, It denotes web login
-TOTP_KEY = "6DWVRNJZCAVA4MKKLFWEICT342L34D57"  # TOTP secret is generated when we enable 2Factor TOTP from myaccount portal
-PIN = "7777"  # User pin for fyers account#
+TOTP_KEY = "CDX6GOGVODZPTQNNC2YEJMFJGKTCCYIH"  # TOTP secret is generated when we enable 2Factor TOTP from myaccount portal
+PIN = "7777"  # User pin for fyers account
 APP_ID = "JEBUMTMO2I"  # "7ZZHXHVNKN"  # App ID from myapi dashboard is in the form appId-appType. Example - EGNI8CE27Q-100, In this code EGNI8CE27Q will be APP_ID and 100 will be the APP_TYPE
 REDIRECT_URI = "https://www.google.com"  # Redirect url from the app.
 APP_TYPE = "100"
@@ -21,7 +21,7 @@ APP_ID_HASH = hashlib.sha256(a_string.encode('utf-8')).hexdigest()
 # API endpoints
 BASE_URL = "https://api-t2.fyers.in/vagator/v2"
 BASE_URL_2 =  "https://api.fyers.in/api/v2"
-# BASE_URL_2 =  "https://api-t1.fyers.in/api/v3"
+# BASE_URL_2 =  "https://api-t1.fyers.in/api/v3" 11
 URL_SEND_LOGIN_OTP = BASE_URL + "/send_login_otp"
 URL_VERIFY_TOTP = BASE_URL + "/verify_otp"
 URL_VERIFY_PIN = BASE_URL + "/verify_pin"
